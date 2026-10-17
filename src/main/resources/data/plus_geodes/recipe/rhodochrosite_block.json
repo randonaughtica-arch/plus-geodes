@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:rhodochrosite_shard"
-    }
+    "#": "plus_geodes:rhodochrosite_shard"
   },
   "result": {
     "id": "plus_geodes:rhodochrosite_block",

@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:malachite_shard"
-    }
+    "#": "plus_geodes:malachite_shard"
   },
   "result": {
     "id": "plus_geodes:malachite_block",

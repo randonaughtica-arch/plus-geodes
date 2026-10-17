@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:enhydro_shard"
-    }
+    "#": "plus_geodes:enhydro_shard"
   },
   "result": {
     "id": "plus_geodes:enhydro_block",

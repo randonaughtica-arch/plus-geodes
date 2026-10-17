@@ -4,7 +4,9 @@
   "version": "${version}",
   "name": "Plus Geodes",
   "description": "Adds 43 new geodes across the Overworld, Nether and End: halite, cymrite, citrine, pyrite, water-filled enhydro, fluorite, opal, purpurite and many more, each with its own budding block, buds, cluster and shard.",
-  "authors": ["randonaughtica-arch"],
+  "authors": [
+    "randonaughtica-arch"
+  ],
   "contact": {
     "sources": "https://github.com/randonaughtica-arch/plus-geodes"
   },
@@ -12,13 +14,14 @@
   "icon": "assets/plus_geodes/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["com.plusgeodes.PlusGeodes"],
-    "client": ["com.plusgeodes.client.PlusGeodesClient"]
+    "main": [
+      "com.plusgeodes.PlusGeodes"
+    ]
   },
   "depends": {
-    "fabricloader": ">=0.16.0",
-    "minecraft": "~1.21.1",
-    "java": ">=21",
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.2",
+    "java": ">=25",
     "fabric-api": "*"
   }
 }

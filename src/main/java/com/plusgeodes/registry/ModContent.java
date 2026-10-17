@@ -5,21 +5,24 @@ import com.plusgeodes.block.BuddingCrystalBlock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AmethystBlock;
-import net.minecraft.block.AmethystClusterBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.text.Text;
+import java.util.function.Function;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.AmethystBlock;
+import net.minecraft.world.level.block.AmethystClusterBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 
 /** Registers the blocks, items and creative tab for every geode type. */
 public final class ModContent {
@@ -37,21 +40,21 @@ public final class ModContent {
             SETS.add(registerSet(type));
         }
 
-        ItemGroup group = FabricItemGroup.builder()
+        CreativeModeTab tab = FabricCreativeModeTab.builder()
                 .icon(() -> new ItemStack(SETS.get(0).cluster()))
-                .displayName(Text.translatable("itemGroup." + PlusGeodes.MOD_ID))
-                .entries((context, entries) -> {
+                .title(Component.translatable("itemGroup." + PlusGeodes.MOD_ID))
+                .displayItems((parameters, output) -> {
                     for (GeodeSet set : SETS) {
-                        entries.add(set.shard());
-                        entries.add(set.block());
-                        entries.add(set.budding());
+                        output.accept(set.shard());
+                        output.accept(set.block());
+                        output.accept(set.budding());
                         for (Block stage : set.growthStages()) {
-                            entries.add(stage);
+                            output.accept(stage);
                         }
                     }
                 })
                 .build();
-        Registry.register(Registries.ITEM_GROUP, PlusGeodes.id("geodes"), group);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, PlusGeodes.id("geodes"), tab);
     }
 
     private static GeodeSet registerSet(GeodeType type) {
@@ -59,52 +62,60 @@ public final class ModContent {
         MapColor color = type.mapColor();
         int light = type.blockLight();
 
-        Block block = registerBlock(id + "_block", new AmethystBlock(AbstractBlock.Settings.create()
+        Block block = registerBlock(id + "_block", AmethystBlock::new, BlockBehaviour.Properties.of()
                 .mapColor(color)
                 .strength(1.5F)
-                .sounds(BlockSoundGroup.AMETHYST_BLOCK)
-                .requiresTool()
-                .luminance(state -> light)));
+                .sound(SoundType.AMETHYST)
+                .requiresCorrectToolForDrops()
+                .lightLevel(state -> light));
 
-        // Same heights, offsets and light levels as the vanilla amethyst stages.
-        Block cluster = registerBlock(id + "_cluster",
-                new AmethystClusterBlock(7.0F, 3.0F, clusterSettings(color, BlockSoundGroup.AMETHYST_CLUSTER, 5)));
-        Block largeBud = registerBlock("large_" + id + "_bud",
-                new AmethystClusterBlock(5.0F, 3.0F, clusterSettings(color, BlockSoundGroup.LARGE_AMETHYST_BUD, 4)));
-        Block mediumBud = registerBlock("medium_" + id + "_bud",
-                new AmethystClusterBlock(4.0F, 3.0F, clusterSettings(color, BlockSoundGroup.MEDIUM_AMETHYST_BUD, 2)));
-        Block smallBud = registerBlock("small_" + id + "_bud",
-                new AmethystClusterBlock(3.0F, 4.0F, clusterSettings(color, BlockSoundGroup.SMALL_AMETHYST_BUD, 1)));
+        // Same heights, widths and light levels as the vanilla amethyst stages.
+        Block cluster = registerBlock(id + "_cluster", p -> new AmethystClusterBlock(7.0F, 10.0F, p),
+                clusterProperties(color, SoundType.AMETHYST_CLUSTER, 5));
+        Block largeBud = registerBlock("large_" + id + "_bud", p -> new AmethystClusterBlock(5.0F, 10.0F, p),
+                clusterProperties(color, SoundType.LARGE_AMETHYST_BUD, 4));
+        Block mediumBud = registerBlock("medium_" + id + "_bud", p -> new AmethystClusterBlock(4.0F, 10.0F, p),
+                clusterProperties(color, SoundType.MEDIUM_AMETHYST_BUD, 2));
+        Block smallBud = registerBlock("small_" + id + "_bud", p -> new AmethystClusterBlock(3.0F, 8.0F, p),
+                clusterProperties(color, SoundType.SMALL_AMETHYST_BUD, 1));
 
-        Block budding = registerBlock("budding_" + id, new BuddingCrystalBlock(smallBud, mediumBud, largeBud, cluster,
-                AbstractBlock.Settings.create()
+        Block budding = registerBlock("budding_" + id,
+                p -> new BuddingCrystalBlock(smallBud, mediumBud, largeBud, cluster, p),
+                BlockBehaviour.Properties.of()
                         .mapColor(color)
-                        .ticksRandomly()
+                        .randomTicks()
                         .strength(1.5F)
-                        .sounds(BlockSoundGroup.AMETHYST_BLOCK)
-                        .requiresTool()
-                        .luminance(state -> light)
-                        .pistonBehavior(PistonBehavior.DESTROY)));
+                        .sound(SoundType.AMETHYST)
+                        .requiresCorrectToolForDrops()
+                        .lightLevel(state -> light)
+                        .pushReaction(PushReaction.DESTROY));
 
-        Item shard = Registry.register(Registries.ITEM, PlusGeodes.id(id + "_shard"), new Item(new Item.Settings()));
+        ResourceKey<Item> shardKey = ResourceKey.create(Registries.ITEM, PlusGeodes.id(id + "_shard"));
+        Item shard = Registry.register(BuiltInRegistries.ITEM, shardKey, new Item(new Item.Properties().setId(shardKey)));
 
         return new GeodeSet(type, block, budding, smallBud, mediumBud, largeBud, cluster, shard);
     }
 
-    private static AbstractBlock.Settings clusterSettings(MapColor color, BlockSoundGroup sounds, int light) {
-        return AbstractBlock.Settings.create()
+    private static BlockBehaviour.Properties clusterProperties(MapColor color, SoundType sound, int light) {
+        return BlockBehaviour.Properties.of()
                 .mapColor(color)
-                .solid()
-                .nonOpaque()
-                .sounds(sounds)
+                .forceSolidOn()
+                .noOcclusion()
+                .sound(sound)
                 .strength(1.5F)
-                .luminance(state -> light)
-                .pistonBehavior(PistonBehavior.DESTROY);
+                .lightLevel(state -> light)
+                .pushReaction(PushReaction.DESTROY);
     }
 
-    private static Block registerBlock(String path, Block block) {
-        Registry.register(Registries.BLOCK, PlusGeodes.id(path), block);
-        Registry.register(Registries.ITEM, PlusGeodes.id(path), new BlockItem(block, new Item.Settings()));
+    private static Block registerBlock(String path, Function<BlockBehaviour.Properties, Block> factory,
+            BlockBehaviour.Properties properties) {
+        ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, PlusGeodes.id(path));
+        Block block = Registry.register(BuiltInRegistries.BLOCK, blockKey, factory.apply(properties.setId(blockKey)));
+
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, PlusGeodes.id(path));
+        BlockItem item = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+        item.registerBlocks(Item.BY_BLOCK, item);
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
         return block;
     }
 }

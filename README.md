@@ -1,6 +1,6 @@
 # Plus Geodes
 
-A Fabric mod for Minecraft **1.21.1** that adds **43 new geodes** to the Overworld, the Nether and the End.
+A Fabric mod for Minecraft **26.2** that adds **43 new geodes** to the Overworld, the Nether and the End.
 
 Each geode works like a vanilla amethyst geode and comes with its own set of blocks and items:
 
@@ -70,7 +70,7 @@ End geodes only start inside end stone, so they don't float in the void.
 
 ## Building
 
-Requires JDK 21.
+Requires JDK 25.
 
 ```sh
 ./gradlew build          # jar goes to build/libs/

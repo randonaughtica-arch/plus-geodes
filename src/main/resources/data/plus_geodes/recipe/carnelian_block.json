@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:carnelian_shard"
-    }
+    "#": "plus_geodes:carnelian_shard"
   },
   "result": {
     "id": "plus_geodes:carnelian_block",

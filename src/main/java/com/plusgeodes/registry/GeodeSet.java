@@ -1,8 +1,8 @@
 package com.plusgeodes.registry;
 
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 /** Every block and item registered for one geode type. */
 public record GeodeSet(

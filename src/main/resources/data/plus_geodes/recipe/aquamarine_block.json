@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:aquamarine_shard"
-    }
+    "#": "plus_geodes:aquamarine_shard"
   },
   "result": {
     "id": "plus_geodes:aquamarine_block",

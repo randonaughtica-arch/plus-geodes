@@ -1,30 +1,29 @@
 package com.plusgeodes.block;
 
-import net.minecraft.block.AmethystBlock;
-import net.minecraft.block.AmethystClusterBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BuddingAmethystBlock;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.AmethystBlock;
+import net.minecraft.world.level.block.AmethystClusterBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BuddingAmethystBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 
 /**
  * Behaves like budding amethyst, but grows this geode's own buds and cluster.
  */
 public class BuddingCrystalBlock extends AmethystBlock {
     private static final Direction[] DIRECTIONS = Direction.values();
-    private static final int GROW_CHANCE = 5;
 
     private final Block smallBud;
     private final Block mediumBud;
     private final Block largeBud;
     private final Block cluster;
 
-    public BuddingCrystalBlock(Block smallBud, Block mediumBud, Block largeBud, Block cluster, Settings settings) {
-        super(settings);
+    public BuddingCrystalBlock(Block smallBud, Block mediumBud, Block largeBud, Block cluster, Properties properties) {
+        super(properties);
         this.smallBud = smallBud;
         this.mediumBud = mediumBud;
         this.largeBud = largeBud;
@@ -32,16 +31,16 @@ public class BuddingCrystalBlock extends AmethystBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        if (random.nextInt(GROW_CHANCE) != 0) {
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(BuddingAmethystBlock.GROWTH_CHANCE) != 0) {
             return;
         }
         Direction direction = DIRECTIONS[random.nextInt(DIRECTIONS.length)];
-        BlockPos target = pos.offset(direction);
-        BlockState targetState = world.getBlockState(target);
+        BlockPos target = pos.relative(direction);
+        BlockState targetState = level.getBlockState(target);
 
         Block next = null;
-        if (BuddingAmethystBlock.canGrowIn(targetState)) {
+        if (BuddingAmethystBlock.canClusterGrowAtState(targetState)) {
             next = smallBud;
         } else if (isFacing(targetState, smallBud, direction)) {
             next = mediumBud;
@@ -52,14 +51,14 @@ public class BuddingCrystalBlock extends AmethystBlock {
         }
 
         if (next != null) {
-            BlockState grown = next.getDefaultState()
-                    .with(AmethystClusterBlock.FACING, direction)
-                    .with(AmethystClusterBlock.WATERLOGGED, targetState.getFluidState().getFluid() == Fluids.WATER);
-            world.setBlockState(target, grown);
+            BlockState grown = next.defaultBlockState()
+                    .setValue(AmethystClusterBlock.FACING, direction)
+                    .setValue(AmethystClusterBlock.WATERLOGGED, targetState.getFluidState().is(Fluids.WATER));
+            level.setBlockAndUpdate(target, grown);
         }
     }
 
     private static boolean isFacing(BlockState state, Block block, Direction direction) {
-        return state.isOf(block) && state.get(AmethystClusterBlock.FACING) == direction;
+        return state.is(block) && state.getValue(AmethystClusterBlock.FACING) == direction;
     }
 }

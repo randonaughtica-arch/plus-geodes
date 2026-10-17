@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:sodalite_shard"
-    }
+    "#": "plus_geodes:sodalite_shard"
   },
   "result": {
     "id": "plus_geodes:sodalite_block",

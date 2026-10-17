@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:kunzite_shard"
-    }
+    "#": "plus_geodes:kunzite_shard"
   },
   "result": {
     "id": "plus_geodes:kunzite_block",

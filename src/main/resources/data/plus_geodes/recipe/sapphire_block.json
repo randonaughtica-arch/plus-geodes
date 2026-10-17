@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:sapphire_shard"
-    }
+    "#": "plus_geodes:sapphire_shard"
   },
   "result": {
     "id": "plus_geodes:sapphire_block",

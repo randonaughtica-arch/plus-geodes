@@ -6,9 +6,7 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "plus_geodes:garnet_shard"
-    }
+    "#": "plus_geodes:garnet_shard"
   },
   "result": {
     "id": "plus_geodes:garnet_block",

@@ -355,6 +355,10 @@ def facing_blockstate(model):
     return {"variants": {f"facing={f}": {"model": model, **r} for f, r in rot.items()}}
 
 
+def item_definition(model):
+    return {"model": {"type": "minecraft:model", "model": model}}
+
+
 def survives_explosion_loot(item):
     return {
         "type": "minecraft:block",
@@ -497,7 +501,7 @@ def shaped_recipe(pattern, key, result, count=1, group=None):
         "type": "minecraft:crafting_shaped",
         "category": "building",
         "pattern": pattern,
-        "key": {k: {"item": v} for k, v in key.items()},
+        "key": key,
         "result": {"id": result, "count": count},
     }
     if group:
@@ -534,7 +538,7 @@ def java_source(geodes):
 package com.plusgeodes.registry;
 
 import java.util.List;
-import net.minecraft.block.MapColor;
+import net.minecraft.world.level.material.MapColor;
 
 public final class GeodeTypes {{
     public static final List<GeodeType> ALL = List.of(
@@ -561,7 +565,7 @@ def main():
 
     # Wipe directories that are entirely generated so removed geodes leave nothing behind.
     for d in [
-        ASSETS / "blockstates", ASSETS / "models", ASSETS / "textures",
+        ASSETS / "blockstates", ASSETS / "items", ASSETS / "models", ASSETS / "textures",
         DATA / "loot_table", DATA / "recipe", DATA / "advancement", DATA / "worldgen", DATA / "tags",
         RES / "data" / "minecraft" / "tags", RES / "data" / "c" / "tags",
     ]:
@@ -594,7 +598,7 @@ def main():
             write_json(ASSETS / "models" / "block" / f"{b}.json",
                        {"parent": "minecraft:block/cube_all", "textures": {"all": rid(f"block/{b}")}})
             write_json(ASSETS / "blockstates" / f"{b}.json", {"variants": {"": {"model": rid(f"block/{b}")}}})
-            write_json(ASSETS / "models" / "item" / f"{b}.json", {"parent": rid(f"block/{b}")})
+            write_json(ASSETS / "items" / f"{b}.json", item_definition(rid(f"block/{b}")))
         for key in BUD_STAGES + ["cluster"]:
             b = ids[key]
             write_json(ASSETS / "models" / "block" / f"{b}.json",
@@ -604,8 +608,10 @@ def main():
                 "parent": "minecraft:item/amethyst_bud",
                 "textures": {"layer0": rid(f"block/{b}")},
             })
+            write_json(ASSETS / "items" / f"{b}.json", item_definition(rid(f"item/{b}")))
         write_json(ASSETS / "models" / "item" / f"{shard}.json",
                    {"parent": "minecraft:item/generated", "textures": {"layer0": rid(f"item/{shard}")}})
+        write_json(ASSETS / "items" / f"{shard}.json", item_definition(rid(f"item/{shard}")))
 
         # lang
         lang[f"block.{MOD_ID}.{ids['block']}"] = f"Block of {name}"

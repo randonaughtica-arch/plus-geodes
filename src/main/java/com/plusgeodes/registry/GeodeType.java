@@ -1,7 +1,7 @@
 package com.plusgeodes.registry;
 
 import java.util.List;
-import net.minecraft.block.MapColor;
+import net.minecraft.world.level.material.MapColor;
 
 /**
  * The per-geode settings the game code needs at registration time. Everything else
