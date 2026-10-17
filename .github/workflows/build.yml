@@ -22,3 +22,17 @@ jobs:
         with:
           name: plus-geodes
           path: build/libs/
+      - name: Server smoke test
+        run: |
+          mkdir -p run && echo "eula=true" > run/eula.txt
+          ./gradlew runServer --no-daemon --args=nogui > server.log 2>&1 &
+          for i in $(seq 1 120); do
+            grep -q -E 'Done \([0-9.]+s\)!' server.log && break
+            grep -q -E 'BUILD FAILED|Crash report|Exception in server tick loop' server.log && break
+            sleep 5
+          done
+          pkill -f 'net.fabricmc' || true
+          echo "--- plus_geodes log lines ---"
+          grep -i -E 'plus_geodes|plus geodes' server.log | grep -v -i 'Loading' || true
+          grep -q -E 'Done \([0-9.]+s\)!' server.log || { tail -200 server.log; exit 1; }
+          if grep -E '(ERROR|WARN).*' server.log | grep -i plus_geodes; then exit 1; fi
