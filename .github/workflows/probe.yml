@@ -12,7 +12,7 @@ jobs:
           java-version: 25
       - name: Probe
         run: |
-          set -x
+          set +e
           mkdir p && cd p
           curl -s https://meta.fabricmc.net/v2/versions/game | python3 -c "import json,sys;print([g['version'] for g in json.load(sys.stdin)[:8]])"
           curl -s https://meta.fabricmc.net/v2/versions/loader | python3 -c "import json,sys;print([g['version'] for g in json.load(sys.stdin)[:3]])"
@@ -28,7 +28,7 @@ jobs:
           curl -s $(python3 -c "import json;print(json.load(open('v.json'))['downloads']['client']['url'])") -o client.jar
           mkdir c && cd c && unzip -q ../client.jar && cd ..
           ls c/net/minecraft/resources/ | head -30
-          for f in data/minecraft/worldgen/configured_feature/amethyst_geode.json data/minecraft/worldgen/placed_feature/amethyst_geode.json data/minecraft/loot_table/blocks/amethyst_cluster.json data/minecraft/loot_table/blocks/small_amethyst_bud.json data/minecraft/loot_table/blocks/amethyst_block.json data/minecraft/loot_table/blocks/budding_amethyst.json data/minecraft/recipe/amethyst_block.json data/minecraft/advancement/recipes/building_blocks/amethyst_block.json assets/minecraft/items/amethyst_cluster.json assets/minecraft/items/amethyst_block.json assets/minecraft/items/amethyst_shard.json assets/minecraft/models/item/amethyst_cluster.json assets/minecraft/models/block/amethyst_cluster.json assets/minecraft/blockstates/amethyst_cluster.json data/minecraft/tags/block/mineable/pickaxe.json data/minecraft/tags/block/crystal_sound_blocks.json pack.mcmeta version.json; do echo "=== $f"; head -c 3000 c/$f; echo; done
+          for f in data/minecraft/worldgen/configured_feature/amethyst_geode.json data/minecraft/worldgen/placed_feature/amethyst_geode.json data/minecraft/loot_table/blocks/amethyst_cluster.json data/minecraft/loot_table/blocks/small_amethyst_bud.json data/minecraft/loot_table/blocks/amethyst_block.json data/minecraft/loot_table/blocks/budding_amethyst.json data/minecraft/recipe/amethyst_block.json data/minecraft/advancement/recipes/building_blocks/amethyst_block.json assets/minecraft/items/amethyst_cluster.json assets/minecraft/items/amethyst_block.json assets/minecraft/items/amethyst_shard.json assets/minecraft/models/item/amethyst_cluster.json assets/minecraft/models/block/amethyst_cluster.json assets/minecraft/blockstates/amethyst_cluster.json data/minecraft/tags/block/crystal_sound_blocks.json version.json; do echo "=== $f"; head -c 1500 c/$f; echo; done
           ls c/data/minecraft/tags/worldgen/biome/ | tr '\n' ' '
           ls c/assets/minecraft/models/item | grep -i amethyst
           curl -sL https://repo1.maven.org/maven2/org/vineflower/vineflower/1.11.1/vineflower-1.11.1.jar -o vf.jar
