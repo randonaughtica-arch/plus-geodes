@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "plus_geodes:block/medium_aquamarine_bud"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "plus_geodes:block/sapphire_cluster"
+    },
+    "facing=down": {
+      "model": "plus_geodes:block/sapphire_cluster",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "plus_geodes:block/sapphire_cluster",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "plus_geodes:block/sapphire_cluster",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "plus_geodes:block/sapphire_cluster",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "plus_geodes:block/sapphire_cluster",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

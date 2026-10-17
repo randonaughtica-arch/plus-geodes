@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "plus_geodes:vanadinite_shard"
+    }
+  },
+  "result": {
+    "id": "plus_geodes:vanadinite_block",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "plus_geodes:jade_shard"
+    }
+  },
+  "result": {
+    "id": "plus_geodes:jade_block",
+    "count": 1
+  }
+}

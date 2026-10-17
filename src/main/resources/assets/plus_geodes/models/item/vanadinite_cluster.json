@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/amethyst_bud",
+  "textures": {
+    "layer0": "plus_geodes:block/vanadinite_cluster"
+  }
+}

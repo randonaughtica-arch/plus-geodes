@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "plus_geodes:kunzite_shard"
+    }
+  },
+  "result": {
+    "id": "plus_geodes:kunzite_block",
+    "count": 1
+  }
+}

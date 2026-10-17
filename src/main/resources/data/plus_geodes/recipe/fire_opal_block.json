@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "plus_geodes:fire_opal_shard"
+    }
+  },
+  "result": {
+    "id": "plus_geodes:fire_opal_block",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/amethyst_bud",
+  "textures": {
+    "layer0": "plus_geodes:block/small_rose_quartz_bud"
+  }
+}
