@@ -43,6 +43,7 @@
     {"id": "carnelian", "name": "Carnelian", "color": "#B8401C", "map_color": "NETHER", "style": "banded", "accent": "#E8873E", "light": 3, "dimension": "nether", "rarity": 22, "y": [10, 118], "middle": "minecraft:nether_wart_block", "outer": "minecraft:netherrack", "biomes": ["minecraft:crimson_forest"]},
     {"id": "amazonite", "name": "Amazonite", "color": "#4CC2AE", "map_color": "COLOR_CYAN", "light": 3, "dimension": "nether", "rarity": 22, "y": [10, 118], "middle": "minecraft:warped_wart_block", "outer": "minecraft:netherrack", "biomes": ["minecraft:warped_forest"]},
     {"id": "purpurite", "name": "Purpurite", "color": "#8B4FBC", "map_color": "COLOR_PURPLE", "light": 4, "dimension": "end", "rarity": 12, "y": [20, 80], "middle": "minecraft:purpur_block", "outer": "minecraft:obsidian", "size": "large"},
-    {"id": "moldavite", "name": "Moldavite", "color": "#5E8A2C", "map_color": "PLANT", "light": 3, "dimension": "end", "rarity": 14, "y": [20, 80], "middle": "minecraft:obsidian", "outer": "minecraft:end_stone_bricks"}
+    {"id": "moldavite", "name": "Moldavite", "color": "#5E8A2C", "map_color": "PLANT", "light": 3, "dimension": "end", "rarity": 14, "y": [20, 80], "middle": "minecraft:obsidian", "outer": "minecraft:end_stone_bricks"},
+    {"id": "bismuth", "name": "Bismuth", "color": "#C9A23F", "map_color": "COLOR_MAGENTA", "style": "iridescent", "light": 1, "rarity": 150, "y": [-58, 10], "middle": "minecraft:tuff", "outer": "minecraft:deepslate"}
   ]
 }

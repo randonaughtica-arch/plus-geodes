@@ -49,7 +49,8 @@ public final class GeodeTypes {
         new GeodeType("carnelian", MapColor.NETHER, 3, GeodeType.Dimension.NETHER, List.of("minecraft:crimson_forest")),
         new GeodeType("amazonite", MapColor.COLOR_CYAN, 3, GeodeType.Dimension.NETHER, List.of("minecraft:warped_forest")),
         new GeodeType("purpurite", MapColor.COLOR_PURPLE, 4, GeodeType.Dimension.END, List.of()),
-        new GeodeType("moldavite", MapColor.PLANT, 3, GeodeType.Dimension.END, List.of())
+        new GeodeType("moldavite", MapColor.PLANT, 3, GeodeType.Dimension.END, List.of()),
+        new GeodeType("bismuth", MapColor.COLOR_MAGENTA, 1, GeodeType.Dimension.OVERWORLD, List.of())
     );
 
     private GeodeTypes() {

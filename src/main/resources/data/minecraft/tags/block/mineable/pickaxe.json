@@ -258,6 +258,12 @@
     "plus_geodes:small_moldavite_bud",
     "plus_geodes:medium_moldavite_bud",
     "plus_geodes:large_moldavite_bud",
-    "plus_geodes:moldavite_cluster"
+    "plus_geodes:moldavite_cluster",
+    "plus_geodes:bismuth_block",
+    "plus_geodes:budding_bismuth",
+    "plus_geodes:small_bismuth_bud",
+    "plus_geodes:medium_bismuth_bud",
+    "plus_geodes:large_bismuth_bud",
+    "plus_geodes:bismuth_cluster"
   ]
 }

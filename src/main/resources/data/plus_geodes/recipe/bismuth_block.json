@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": "plus_geodes:bismuth_shard"
+  },
+  "result": {
+    "id": "plus_geodes:bismuth_block",
+    "count": 1
+  }
+}

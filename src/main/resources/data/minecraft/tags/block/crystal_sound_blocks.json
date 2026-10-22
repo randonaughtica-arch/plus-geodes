@@ -86,6 +86,8 @@
     "plus_geodes:purpurite_block",
     "plus_geodes:budding_purpurite",
     "plus_geodes:moldavite_block",
-    "plus_geodes:budding_moldavite"
+    "plus_geodes:budding_moldavite",
+    "plus_geodes:bismuth_block",
+    "plus_geodes:budding_bismuth"
   ]
 }

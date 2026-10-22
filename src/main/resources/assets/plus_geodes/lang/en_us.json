@@ -300,5 +300,12 @@
   "block.plus_geodes.medium_moldavite_bud": "Medium Moldavite Bud",
   "block.plus_geodes.large_moldavite_bud": "Large Moldavite Bud",
   "block.plus_geodes.moldavite_cluster": "Moldavite Cluster",
-  "item.plus_geodes.moldavite_shard": "Moldavite Shard"
+  "item.plus_geodes.moldavite_shard": "Moldavite Shard",
+  "block.plus_geodes.bismuth_block": "Block of Bismuth",
+  "block.plus_geodes.budding_bismuth": "Budding Bismuth",
+  "block.plus_geodes.small_bismuth_bud": "Small Bismuth Bud",
+  "block.plus_geodes.medium_bismuth_bud": "Medium Bismuth Bud",
+  "block.plus_geodes.large_bismuth_bud": "Large Bismuth Bud",
+  "block.plus_geodes.bismuth_cluster": "Bismuth Cluster",
+  "item.plus_geodes.bismuth_shard": "Bismuth Shard"
 }

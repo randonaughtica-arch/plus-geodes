@@ -86,6 +86,21 @@ def rgba(rgb, a=255):
     return (*rgb, a)
 
 
+def is_cubic(g):
+    return g["style"] in ("cubic", "iridescent")
+
+
+# Bismuth-like oxide sheen: gold, magenta, blue, teal, then round again.
+IRIDESCENT_HUES = [0.0, 0.17, 0.45, 0.62, 0.83, 0.31]
+
+
+def cube_palette(g, pal, i):
+    """The palette for the i-th cube: the geode's own, or a rainbow tint for iridescent geodes."""
+    if g["style"] != "iridescent":
+        return pal
+    return palette(hue_shift(hex_rgb(g["color"]), IRIDESCENT_HUES[i % len(IRIDESCENT_HUES)]))
+
+
 # --------------------------------------------------------------------------- textures
 
 def block_texture(g, rng: random.Random) -> Image.Image:
@@ -95,21 +110,22 @@ def block_texture(g, rng: random.Random) -> Image.Image:
     px = img.load()
     style = g["style"]
 
-    if style == "cubic":
+    if is_cubic(g):
         # Tiled cubes with bright top-left edges and dark bottom-right edges.
         for by in range(0, 16, 4):
             off = 2 if (by // 4) % 2 else 0
             for bx in range(-4, 16, 4):
                 shade = rng.choice([1, 2, 2, 3])
+                cpal = cube_palette(g, pal, rng.randrange(len(IRIDESCENT_HUES))) if style == "iridescent" else pal
                 for dy in range(4):
                     for dx in range(4):
                         x, y = (bx + off + dx) % 16, by + dy
                         if dx == 0 or dy == 0:
-                            c = pal[min(shade + 1, 4)]
+                            c = cpal[min(shade + 1, 4)]
                         elif dx == 3 or dy == 3:
-                            c = pal[max(shade - 1, 0)]
+                            c = cpal[max(shade - 1, 0)]
                         else:
-                            c = pal[shade]
+                            c = cpal[shade]
                         px[x, y] = rgba(c)
         if accent:
             for _ in range(6):
@@ -253,10 +269,10 @@ CUBES = {
 def growth_texture(g, stage) -> Image.Image:
     pal = palette(hex_rgb(g["color"]))
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    if g["style"] == "cubic":
+    if is_cubic(g):
         cubes = CUBES[stage]
         for i, (x, y, s) in enumerate(cubes):
-            draw_cube(img, x, y, s, pal, dim=1 if i < len(cubes) - 2 and len(cubes) > 2 else 0)
+            draw_cube(img, x, y, s, cube_palette(g, pal, i), dim=1 if i < len(cubes) - 2 and len(cubes) > 2 else 0)
     else:
         spikes = SPIKES[stage]
         for i, (cx, h, w, lean) in enumerate(spikes):
@@ -267,10 +283,10 @@ def growth_texture(g, stage) -> Image.Image:
 def shard_texture(g, rng: random.Random) -> Image.Image:
     pal = palette(hex_rgb(g["color"]))
     img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
-    if g["style"] == "cubic":
-        draw_cube(img, 2, 14, 6, pal)
-        draw_cube(img, 8, 11, 5, pal)
-        draw_cube(img, 5, 7, 4, pal)
+    if is_cubic(g):
+        draw_cube(img, 2, 14, 6, cube_palette(g, pal, 0))
+        draw_cube(img, 8, 11, 5, cube_palette(g, pal, 2))
+        draw_cube(img, 5, 7, 4, cube_palette(g, pal, 4))
         return img
     poly = [(1, 12), (4, 15), (13, 7), (15, 0), (8, 3)]
     mask = Image.new("L", (16, 16))
@@ -561,7 +577,7 @@ def main():
         assert g["id"] not in seen, f"duplicate geode id {g['id']}"
         seen.add(g["id"])
         assert g["dimension"] in ("overworld", "nether", "end"), g["id"]
-        assert g["style"] in ("faceted", "cubic", "banded", "speckled", "opal"), g["id"]
+        assert g["style"] in ("faceted", "cubic", "banded", "speckled", "opal", "iridescent"), g["id"]
 
     # Wipe directories that are entirely generated so removed geodes leave nothing behind.
     for d in [

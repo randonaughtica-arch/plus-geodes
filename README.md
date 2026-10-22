@@ -1,6 +1,6 @@
 # Plus Geodes
 
-A Fabric mod for Minecraft **26.2** that adds **43 new geodes** to the Overworld, the Nether and the End.
+A Fabric mod for Minecraft **26.2** that adds **44 new geodes** to the Overworld, the Nether and the End.
 
 Each geode works like a vanilla amethyst geode and comes with its own set of blocks and items:
 
@@ -63,6 +63,7 @@ The middle and outer columns are the geode's shell. The vanilla shell is calcite
 | Amazonite | Nether | warped forest | 10 to 118 | 1 in 22 | warped wart block / netherrack | glows (3) |
 | Purpurite | End | anywhere | 20 to 80 | 1 in 12 | purpur block / obsidian | glows (4), large |
 | Moldavite | End | anywhere | 20 to 80 | 1 in 14 | obsidian / end stone bricks | glows (3) |
+| Bismuth | Overworld | anywhere | -58 to 10 | 1 in 150 | tuff / deepslate | rainbow cubic crystals, glows (1), the rarest of them all |
 
 **Enhydro** geodes are filled with water, so their buds and clusters grow underwater. These geodes never generate cracks, so the water doesn't leak into caves.
 
@@ -86,7 +87,7 @@ pip install pillow
 python3 tools/generate.py
 ```
 
-This regenerates the Java registry (`GeodeTypes.java`), the procedurally drawn textures, the models and blockstates, lang, loot tables, recipes, tags and worldgen features. Commit the generated files. Supported fields and defaults are listed in the `_comment` at the top of the JSON file. Texture styles are `faceted`, `cubic`, `banded`, `speckled` and `opal`.
+This regenerates the Java registry (`GeodeTypes.java`), the procedurally drawn textures, the models and blockstates, lang, loot tables, recipes, tags and worldgen features. Commit the generated files. Supported fields and defaults are listed in the `_comment` at the top of the JSON file. Texture styles are `faceted`, `cubic`, `banded`, `speckled`, `opal` and `iridescent` (cubic crystals, each one tinted a different oxide-rainbow hue).
 
 Worldgen is data-driven (`data/plus_geodes/worldgen/`), so datapacks can change rarity, height or shell blocks without touching the mod.
 
